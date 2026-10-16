@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Student Profile - {{ student.name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    
+    <!-- Top Header with Student Greeting and Live Time Clock -->
+    <div class="dashboard-header">
+        <div>
+            <h2>Welcome, {{ student.name }}</h2>
+            <p style="color: #94a3b8;">Student Profile Dashboard</p>
+        </div>
+
+        <!-- Live time (updates every second via JS) -->
+        <div class="live-time-box">
+            Live Time: <span id="live-clock">--:--:--</span>
+        </div>
+    </div>
+
+    <!-- Controls: jQuery Toggle Button and Course Dropdown -->
+    <div class="dashboard-controls">
+        <!-- Toggle button -->
+        <button type="button" id="toggle-details-btn" class="btn btn-secondary">Hide Details</button>
+
+        <!-- Dropdown to update course via AJAX -->
+        <div class="course-changer">
+            <label for="update-course-dropdown" style="font-size: 14px; font-weight: 600;">Update Course:</label>
+            <select id="update-course-dropdown">
+                <option value="">-- Choose New Course --</option>
+                <option value="Computer Science" {% if student.course == 'Computer Science' %}selected{% endif %}>Computer Science</option>
+                <option value="Information Technology" {% if student.course == 'Information Technology' %}selected{% endif %}>Information Technology</option>
+                <option value="Data Science" {% if student.course == 'Data Science' %}selected{% endif %}>Data Science</option>
+                <option value="Software Engineering" {% if student.course == 'Software Engineering' %}selected{% endif %}>Software Engineering</option>
+                <option value="Cyber Security" {% if student.course == 'Cyber Security' %}selected{% endif %}>Cyber Security</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Student Details Section (Toggleable) -->
+    <div id="student-details-card">
+        <div class="details-grid">
+            <div class="detail-item">
+                <h4>Full Name</h4>
+                <p>{{ student.name }}</p>
+            </div>
+            <div class="detail-item">
+                <h4>Enrolled Course</h4>
+                <p id="profile-course-text">{{ student.course }}</p>
+            </div>
+            <div class="detail-item">
+                <h4>Email Address</h4>
+                <p>{{ student.email }}</p>
+            </div>
+            <div class="detail-item">
+                <h4>Age</h4>
+                <p>{{ student.age }}</p>
+            </div>
+            <div class="detail-item">
+                <h4>Gender</h4>
+                <p>{{ student.gender }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout button -->
+    <div style="margin-top: 25px; text-align: right;">
+        <a href="{{ url_for('logout') }}" class="btn" style="background-color: #ef4444;">Logout</a>
+    </div>
+
+</div>
+
+<!-- Floating Toast Message for AJAX Course Update -->
+<div id="toast" class="toast-msg">Course updated!</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}
